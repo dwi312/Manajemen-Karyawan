@@ -1,0 +1,34 @@
+# === Java Build ===
+*.class
+*.jar
+*.war
+*.ear
+
+# === IDE (VSCode, IntelliJ, Eclipse) ===
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+
+# === Log Files ===
+*.log
+
+# === Backup Files ===
+*~
+*.bak
+*.swp
+
+# === Output / Temp Folder ===
+out/
+bin/
+
+# === Credentials or Config (optional) ===
+*.env
