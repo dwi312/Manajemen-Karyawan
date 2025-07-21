@@ -1,0 +1,6 @@
+K001|Andi Setiawan|Tetap|5000000|0
+K002|Budi Santoso|Kontrak|50000|40
+K003|Citra Dewi|Tetap|6000000|0
+K004|Dodi Saputra|Kontrak|45000|35
+K005|Eka Pratama|Tetap|7000000|0
+K006|Farah Anjani|Kontrak|60000|20
