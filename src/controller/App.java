@@ -29,13 +29,13 @@ public class App {
                 app.daftarKaryawan();
                 break;
             case 3:
-                
+                app.cariKaryawan();
                 break;
             case 4:
-                
+                app.ubahDataKaryawan();
                 break;
             case 5:
-                
+                app.hapusKaryawan();
                 break;
             case 0:
                 exit = true;

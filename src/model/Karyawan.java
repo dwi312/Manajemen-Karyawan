@@ -1,14 +1,14 @@
+package model;
+
 public abstract class Karyawan {
     private String id;
     private String nama;
-    private String alamat;
-    protected double gaji;
+    private String tipe;
 
-    public Karyawan(String id, String nama, String alamat, double gaji) {
+    public Karyawan(String id, String nama, String tipe) {
         this.id = id;
         this.nama = nama;
-        this.alamat = alamat;
-        this.gaji = gaji;
+        this.tipe = tipe;
     }
 
     public String getId() {
@@ -19,23 +19,19 @@ public abstract class Karyawan {
         return nama;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public String getTipe() {
+        return tipe;
     }
 
-    public double getGaji() {
-        return gaji;
-    }
-
-    public void setGaji(double gaji) {
-        this.gaji = gaji;
-    }
-
-    public abstract String getjenisKaryawan();
+    // Polimorfisme (akan di-override di subclass)
+    public abstract double hitungGaji();
 
     @Override
     public String toString() {
-        return id +" | " +nama+" | "+alamat+" | "+gaji;
+        return "ID: " + id + 
+               " | Nama: " + nama + 
+               " | Tipe: " + tipe + 
+               " | Gaji: " + hitungGaji();
     }
 
 }

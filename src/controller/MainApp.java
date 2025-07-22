@@ -28,6 +28,18 @@ public class MainApp {
     public void daftarKaryawan() {
         System.out.println("\n=== Daftar Karyawan ===");
     }
+    
+    public void cariKaryawan() {
+        System.out.println("\n=== Cari Karyawan ===");
+    }
+    
+    public void ubahDataKaryawan() {
+        System.out.println("\n=== Rubah Data Karyawan ===");
+    }
+    
+    public void hapusKaryawan() {
+        System.out.println("\n=== Hapus Karyawan ===");
+    }
 
 
 }
