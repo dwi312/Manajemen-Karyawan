@@ -9,12 +9,13 @@ src/
 │   ├── KaryawanKontrak.java   (subclass)
 │
 ├── service/
-│   └── KaryawanService.java   (logika data ArrayList & file I/O)
+│   └── KaryawanService.java   (logika data & file I/O)
 │
 ├── controller/
-│   └── MainApp.java           (menu utama dan interaksi user)
+│   └── AppOutput.java         (output mencetak ke console)
+│   └── MainApp.java           (controller utama dan penghubung ke service)
 │
-└── util/
-    └── FileUtil.java          (helper untuk baca/tulis file)
+└── helper/
+    └── AppHelper.java         (helper untuk validasi input)
     
 ```

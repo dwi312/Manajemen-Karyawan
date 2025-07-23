@@ -1,13 +1,16 @@
 package controller;
 
-public class App {
+import helper.AppHelper;
+
+public class AppOutput {
     private MainApp app;
 
-    public App(MainApp app) {
+    public AppOutput(MainApp app) {
         this.app = app;
     }
 
     public void menu() {
+        AppHelper.clearScreen();
         System.out.println("\n=== SISTEM MANAJEMEN KARYAWAN ===");
         System.out.println("1. Tambah Karyawan");
         System.out.println("2. Lihat Semua Karyawan");
@@ -23,7 +26,7 @@ public class App {
         boolean exit = false;
         switch (piliahan) {
             case 1:
-                app.tambahKaryawan();
+                pilihKaryawan();
                 break;
             case 2:
                 app.daftarKaryawan();
@@ -46,6 +49,16 @@ public class App {
         }
 
         return exit;
+    }
+
+    public void pilihKaryawan() {
+        AppHelper.clearScreen();
+        System.out.println("\n=== Tambah Karyawan ===");
+        System.out.println();
+        System.out.println("1. Karyawan Tetap");
+        System.out.println("2. Karyawan Kontrak");
+        System.out.print("Pilih: ");
+        app.tambahKaryawan();
     }
 
 }

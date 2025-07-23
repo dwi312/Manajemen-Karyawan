@@ -8,11 +8,11 @@ public class KaryawanTetap extends Karyawan {
         this.gaji = gaji;
     }
 
-    public double  getGaji() {
+    public double getGaji() {
         return gaji;
     }
 
-    public void setGaji(double  gaji) {
+    public void setGaji(double gaji) {
         this.gaji = gaji;
     }
 
@@ -21,4 +21,9 @@ public class KaryawanTetap extends Karyawan {
         return gaji;
     }
 
+    @Override
+    public String toString() {
+        return String.format("[Tetap] %s - %s - Gaji: %.2f", getId(), getNama(), gaji);
+    }
 }
+

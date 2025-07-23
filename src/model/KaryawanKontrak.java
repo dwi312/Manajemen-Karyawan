@@ -31,4 +31,10 @@ public class KaryawanKontrak extends Karyawan {
         return upahPerJam * totalJamKerja;
     }
 
+    @Override
+    public String toString() {
+        return String.format("[Kontrak] %s - %s - Upah: %.2f x %d jam = %.2f", 
+                              getId(), getNama(), upahPerJam, totalJamKerja, hitungGaji());
+    }
+
 }
