@@ -22,9 +22,9 @@ public class AppOutput {
         System.out.print("Pilih menu: ");
     }
 
-    public boolean piliMenu(int piliahan) {
+    public boolean piliMenu(int pilihan) {
         boolean exit = false;
-        switch (piliahan) {
+        switch (pilihan) {
             case 1:
                 pilihKaryawan();
                 break;

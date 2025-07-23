@@ -9,13 +9,16 @@ src/
 │   ├── KaryawanKontrak.java   (subclass)
 │
 ├── service/
-│   └── KaryawanService.java   (logika data & file I/O)
+│   └── KaryawanService.java   (menangani operasi bisnis(CRUD) terkait karyawan)
 │
 ├── controller/
-│   └── AppOutput.java         (output mencetak ke console)
-│   └── MainApp.java           (controller utama dan penghubung ke service)
+│   └── AppOutput.java         (tampilan menu dan penanganan input/output dasar)
+│   └── MainApp.java           (logika aplikasi dan interaksi dengan Service)
 │
 └── helper/
-    └── AppHelper.java         (helper untuk validasi input)
+│
+│   └── AppHelper.java         (menyediakan fungsi-fungsi utilitas, seperti validasi input dan membersihkan layar.)
+│
+└── Main.java                  (kelas utama yang memulai aplikasi.)
     
 ```

@@ -62,72 +62,76 @@ public class KaryawanService {
         return null;
     }
 
-    public void updateKaryawan(String data) {
+    public void updateKaryawan(String data, Scanner input) {
         if(cariKaryawan(data) != null) {
             Karyawan k = cariKaryawan(data);
             System.out.println();
             System.out.print("*Kosongkan bila tidak inggin diubah*\n");
             System.out.print("Masukan Nama Baru: ");
-            String updateNama = new Scanner(System.in).nextLine();
+            String updateNama = input.nextLine();
             if (updateNama.isEmpty()) {
                 updateNama = k.getNama();
             }
 
             String id = k.getId();
+            k.setNama(updateNama);
 
             if(k.getTipe().equalsIgnoreCase("Tetap")) {
                 System.out.print("Masukan Gaji Baru: ");
-                String input = new Scanner(System.in).nextLine();
-                double upadateGaji;
+                String inputGaji = input.nextLine();
+                double upadateGaji = ((KaryawanTetap) k).getGaji();
                 
-                if (input.trim().isEmpty()) {
-                    upadateGaji = ((KaryawanTetap) k).getGaji();
-                } else {
-                    upadateGaji = Double.parseDouble(input);
-                    if (upadateGaji <= 0) {
-                        System.out.println("Angka yang dimasukkan tidak valid.");
-                        upadateGaji = ((KaryawanTetap) k).getGaji();
-                        return;
+                if (inputGaji.trim().isEmpty()) {
+                    try {
+                        double parseGaji = Double.parseDouble(inputGaji);
+                        if (parseGaji > 0) {
+                            upadateGaji = parseGaji;
+                        } else {
+                            System.out.println("Angka yang dimasukkan tidak valid.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Input gaji tidak valid! Harus berupa angka. Menggunakan gaji lama.");
                     }
                 }
 
-                k.setNama(updateNama);
                 ((KaryawanTetap) k).setGaji(upadateGaji);
-
                 System.out.println("Karyawan berhasil diupdate.");
                 
             } else {
                 System.out.print("Masukan Upah Per Jam Baru: ");
-                String inputUpah = new Scanner(System.in).nextLine();
-                double upadateUpahPerJam;
+                String inputUpah = input.nextLine();
+                double upadateUpahPerJam = ((KaryawanKontrak) k).getUpahPerJam();
 
                 if (inputUpah.trim().isEmpty()) {
-                    upadateUpahPerJam = ((KaryawanKontrak) k).getUpahPerJam();
-                } else {
-                    upadateUpahPerJam = Double.parseDouble(inputUpah);
-                    if (upadateUpahPerJam <= 0) {
-                        System.out.println("Angka yang dimasukkan tidak valid.");
-                        upadateUpahPerJam = ((KaryawanKontrak) k).getUpahPerJam();
-                        return;
+                    try {
+                        double parseUpah = Double.parseDouble(inputUpah);
+                        if (parseUpah > 0) {
+                            upadateUpahPerJam = parseUpah;
+                        } else {
+                            System.out.println("Angka yang dimasukkan tidak valid.");
+                        }                        
+                    } catch (NumberFormatException e) {
+                       System.out.println("Input upah per jam tidak valid! Harus berupa angka. Menggunakan upah lama.");
                     }
                 }
                 
                 System.out.print("Masukan Total Jam Kerja Baru: ");
-                String inputTotaljam = new Scanner(System.in).nextLine();
-                int updateTotalJamKerja;
+                String inputTotaljam = input.nextLine();
+                int updateTotalJamKerja = ((KaryawanKontrak) k).getTotalJamKerja();
 
                 if (inputTotaljam.trim().isEmpty()) {
-                    updateTotalJamKerja = ((KaryawanKontrak) k).getTotalJamKerja();
-                } else {
-                    updateTotalJamKerja = Integer.parseInt(inputTotaljam);
-                    if ( updateTotalJamKerja <= 0) {
-                        System.out.println("Angka yang dimasukkan tidak valid");
-                        updateTotalJamKerja = ((KaryawanKontrak) k).getTotalJamKerja();
-                        return;
+                    try {
+                        int parseTotalJam = Integer.parseInt(inputTotaljam);
+                        if (parseTotalJam > 0) {
+                            updateTotalJamKerja = parseTotalJam;
+                        } else {
+                            System.out.println("Angka yang dimasukkan tidak valid.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Input total jam kerja tidak valid! Harus berupa angka. Menggunakan jam kerja lama.");
                     }
                 }
                 
-                k.setNama(updateNama);
                 ((KaryawanKontrak) k).setUpahPerJam(upadateUpahPerJam);
                 ((KaryawanKontrak) k).setTotalJamKerja(updateTotalJamKerja);
                 
@@ -149,9 +153,8 @@ public class KaryawanService {
     public void bacaDariFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            int nextIndex = daftarKaryawan.size();
 
-            while ((line = reader.readLine()) != null && nextIndex != -1 ) {
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts.length != 0) {
                     String id = parts[0];
@@ -159,26 +162,36 @@ public class KaryawanService {
                     String tipe = parts[2];
                     
                     if (tipe.equals("Tetap")) {
-                        double gaji = Double.parseDouble(parts[3]);
-                        
-                        Karyawan k = new KaryawanTetap(id, nama, gaji);
-                        daftarKaryawan.add(k);
-                        
+                        if (parts.length >= 4) {
+                            double gaji = Double.parseDouble(parts[3]);
+                            Karyawan k = new KaryawanTetap(id, nama, gaji);
+                            daftarKaryawan.add(k);
+                        } else {
+                            System.out.println("Peringatan: Baris tidak valid untuk Karyawan Tetap, dilewati: " + line);
+                        }
                     } else if (tipe.equals("Kontrak")) {
-                        double gaji = Double.parseDouble(parts[3]);
-                        int totalJamKerja = Integer.parseInt(parts[4]);
+                        if (parts.length >= 5) {
+                            double UpahPerJam = Double.parseDouble(parts[3]);
+                            int totalJamKerja = Integer.parseInt(parts[4]);
 
-                        Karyawan k = new KaryawanKontrak(id, nama, gaji, totalJamKerja);
-                        daftarKaryawan.add(k);
+                            Karyawan k = new KaryawanKontrak(id, nama, UpahPerJam, totalJamKerja);
+                            daftarKaryawan.add(k);                            
+                        } else {
+                            System.out.println("Peringatan: Baris tidak valid untuk Karyawan Kontrak, dilewati: " + line);
+                        }
+                    } else {
+                        System.out.println("Peringatan: Tipe karyawan tidak valid, dilewati: " + line);
                     }
-                    nextIndex = daftarKaryawan.size();
+                } else {
+                    System.out.println("Peringatan: Baris tidak valid, dilewati: " + line);
                 }
             }
             System.out.println("Data Karyawan selesai dimuat.");
         } catch (IOException e) {
             System.out.println("Gagal memuat data: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Gagal mengurai angka dari file: " + e.getMessage() + ". Periksa format data file.");
         }
-        
     }
 
    

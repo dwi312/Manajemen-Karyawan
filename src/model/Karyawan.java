@@ -47,3 +47,5 @@ public abstract class Karyawan {
     }
 
 }
+
+

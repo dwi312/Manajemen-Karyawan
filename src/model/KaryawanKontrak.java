@@ -38,3 +38,4 @@ public class KaryawanKontrak extends Karyawan {
     }
 
 }
+

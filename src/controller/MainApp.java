@@ -79,7 +79,7 @@ public class MainApp {
         System.out.print("Masukan ID/Nama Karyawan: ");
         String keyword = AppHelper.inputStr(input);
 
-        karyawan.updateKaryawan(keyword);
+        karyawan.updateKaryawan(keyword, input);
 
         AppHelper.enterToContinue(input);
     }
