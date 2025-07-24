@@ -1,11 +1,12 @@
-package controller;
+package view;
 
+import controller.MainApp;
 import helper.AppHelper;
 
-public class AppOutput {
+public class AppView {
     private MainApp app;
 
-    public AppOutput(MainApp app) {
+    public AppView(MainApp app) {
         this.app = app;
     }
 
@@ -22,7 +23,7 @@ public class AppOutput {
         System.out.print("Pilih menu: ");
     }
 
-    public boolean piliMenu(int pilihan) {
+    public boolean pilihMenu(int pilihan) {
         boolean exit = false;
         switch (pilihan) {
             case 1:
@@ -58,7 +59,22 @@ public class AppOutput {
         System.out.println("1. Karyawan Tetap");
         System.out.println("2. Karyawan Kontrak");
         System.out.print("Pilih: ");
-        app.tambahKaryawan();
+        int pilih = AppHelper.inputInt(app.input);
+        menuTambahKaryawan(pilih);
+    }
+
+    public void menuTambahKaryawan(int num) {
+        switch (num) {
+            case 1:
+                app.getDataKaryawanTetap();       
+                break;
+            case 2:
+                app.getDataKaryawanKontrak();
+                break;
+            default:
+                System.out.println("Pilihan tidak valid.");
+                break;
+        }
     }
 
 }

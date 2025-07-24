@@ -2,58 +2,47 @@ package controller;
 
 import helper.AppHelper;
 import java.util.Scanner;
+import model.Karyawan;
+import service.DataService;
 import service.KaryawanService;
+import view.AppView;
 
 public class MainApp {
-    Scanner input = new Scanner(System.in);
+    public Scanner input = new Scanner(System.in);
 
-    private AppOutput view = new AppOutput(this);
-    private KaryawanService karyawan = new KaryawanService();
+    private AppView view;
+    private KaryawanService karyawan;
 
     public void run() {
         initData();
+        view = new AppView(this);
+
         int pilihan = -1;
         boolean exit = false;
 
         while (!exit) {
             view.menu();
             pilihan = AppHelper.inputInt(input);
-            exit = view.piliMenu(pilihan);
+            exit = view.pilihMenu(pilihan);
         }
+
         saveData();
         System.out.println("Program berhenti.");
         input.close();
     }
 
-    public void tambahKaryawan() {
-        int num = AppHelper.inputInt(input);
-
-        switch (num) {
-            case 1:
-                getDataKaryawanTetap();
-                AppHelper.enterToContinue(input);
-                saveData();
-                break;
-            case 2:
-                getDataKaryawanKontrak();
-                AppHelper.enterToContinue(input);
-                saveData();
-                break;
-            case 3:
-                karyawan.tampilkanSemua();
-                AppHelper.enterToContinue(input);
-                break;
-            default:
-                System.out.println("Pilihan tidak valid.");
-                break;
-        }
-    }
+    
     
     public void daftarKaryawan() {
         AppHelper.clearScreen();
         System.out.println("\n=== Daftar Karyawan ===");
         System.out.println();
-        karyawan.tampilkanSemua();
+        if (!karyawan.getDaftarKaryawan().isEmpty()) {
+            karyawan.tampilkanSemua();
+        } else {
+            System.out.println("Tidak ada karyawan yang terdaftar.");
+        }
+
         AppHelper.enterToContinue(input);
     }
     
@@ -61,12 +50,16 @@ public class MainApp {
         AppHelper.clearScreen();
         System.out.println("\n=== Cari Karyawan ===");
         System.out.println();
-        System.out.print("Masukan Nama Karyawan: ");
-        String nama = AppHelper.inputStr(input);
+        System.out.print("Masukan ID/Nama Karyawan: ");
+        String keyword = AppHelper.inputStr(input);
 
-        if (karyawan.cariKaryawan(nama) != null) {
+        Karyawan cari = karyawan.cariKaryawan(keyword);
+
+        if (cari != null) {
             System.out.println("Data Karyawan: ");
-            System.out.println(karyawan.cariKaryawan(nama));
+            System.out.println(cari);
+        } else {
+            System.out.println("Karyawan tidak ditemukan.");
         }
 
         AppHelper.enterToContinue(input);
@@ -80,7 +73,7 @@ public class MainApp {
         String keyword = AppHelper.inputStr(input);
 
         karyawan.updateKaryawan(keyword, input);
-
+        saveData();
         AppHelper.enterToContinue(input);
     }
     
@@ -91,13 +84,38 @@ public class MainApp {
 
         System.out.print("Masukan ID/Nama Karyawan: ");
         String keyword = AppHelper.inputStr(input);
-
-        karyawan.hapusKaryawan(keyword);
-
+        
+        Karyawan cari = karyawan.cariKaryawan(keyword);
+        if (cari != null) {
+            System.out.println("Data Karyawan: ");
+            System.out.println("ID Karyawan   : " + cari.getId());
+            System.out.println("Nama Karyawan : " + cari.getNama());
+            System.out.println("Tipe Karyawan : " + cari.getTipe());
+            System.out.println();
+            System.out.println("Hapus data karyawan ini? (Y/N)");
+            
+            boolean ulang = false;
+            while (!ulang) {   
+                String hapus = AppHelper.inputStr(input);
+                if (hapus.equalsIgnoreCase("Y")) {
+                    karyawan.hapusKaryawan(keyword);
+                    System.out.println("Karyawan berhasil dihapus.");
+                    ulang = true;
+                } else if (hapus.equalsIgnoreCase("N")) {
+                    System.out.println("Karyawan batal dihapus.");
+                    ulang = true;
+                } else {
+                    System.out.println("pilih Y/N");   
+                }
+            }
+        } else {
+            System.out.println("Karyawan tidak ditemukan.");
+        }
+        saveData();
         AppHelper.enterToContinue(input);
     }
 
-    private void getDataKaryawanTetap() {
+    public void getDataKaryawanTetap() {
         AppHelper.clearScreen();
         System.out.println("\n=== Karyawan Tetap ===");
         System.out.println();
@@ -112,10 +130,11 @@ public class MainApp {
         double gaji = (double) angka;
         
         karyawan.tambahKaryawanTetap(id, nama, gaji);
-
+        saveData();
+        AppHelper.enterToContinue(input);
     }
 
-    private void getDataKaryawanKontrak() {
+    public  void getDataKaryawanKontrak() {
         AppHelper.clearScreen();
         System.out.println("\n=== Karyawan Kontrak ===");
         System.out.println();
@@ -133,19 +152,19 @@ public class MainApp {
         int totalJamKerja = AppHelper.inputInt(input);
 
         karyawan.tambahKaryawanKontrak(id, nama, upahPerJam, totalJamKerja);
+        saveData();
+        AppHelper.enterToContinue(input);
     }
 
     private void initData() {
-        karyawan.bacaDariFile("data/karyawan.txt");
+        DataService.bacaDariFile("data/karyawan.txt");
+
+         // Inisialisasi KaryawanService dengan daftar karyawan yang dimuat
+        karyawan = new KaryawanService(DataService.getDaftarKaryawan());
     }
 
     private void saveData() {
-        karyawan.simpanKeFile("data/karyawan.txt");
+        DataService.simpanKeFile("data/karyawan.txt");
     }
-
-
-    
-
-
 
 }

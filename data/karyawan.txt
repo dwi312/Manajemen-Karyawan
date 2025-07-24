@@ -1,7 +1,9 @@
-K001|Andi Setiawan|Tetap|5000000.0|0.0
-K002|Budi Santoso|Kontrak|50000.0|40|2000000.0
-K003|Citra Dewi|Tetap|6000000.0|0.0
-K004|Dodi Saputra|Kontrak|45000.0|35|1575000.0
-K005|Eka Pratama|Tetap|7000000.0|0.0
-K006|Farah Anjani|Kontrak|60000.0|20|1200000.0
-K007|coba|Kontrak|50000.0|60|3000000.0
+K001|Andi Setiawan|Tetap|5000000.0
+K002|Budi Santoso|Kontrak|50000.0|40
+K003|Citra Dewi|Tetap|6000000.0
+K004|Dodi Saputra|Kontrak|45000.0|35
+K005|Eka Pratama|Tetap|7000000.0
+K006|Farah Anjani|Kontrak|60000.0|20
+K007|coba|Kontrak|50000.0|60
+K008|joko|Tetap|4000000.0
+K009|bowo|Kontrak|30000.0|216
